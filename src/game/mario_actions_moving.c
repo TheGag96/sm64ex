@@ -154,7 +154,12 @@ s32 set_triple_jump_action(struct MarioState *m, UNUSED u32 action, UNUSED u32 a
     } else if (m->forwardVel > 20.0f) {
         return set_mario_action(m, ACT_TRIPLE_JUMP, 0);
     } else {
-        return set_mario_action(m, ACT_JUMP, 0);
+        if (m->input & INPUT_ANALOG_SPIN) {
+            return set_mario_action(m, ACT_SPIN_JUMP, 0);
+        }
+        else {
+            return set_mario_action(m, ACT_JUMP, 0);
+        }
     }
 
     return 0;
@@ -478,8 +483,14 @@ void update_walking_speed(struct MarioState *m) {
         m->forwardVel += 1.1f - m->forwardVel / 43.0f;
     } else if (m->floor->normal.y >= 0.95f) {
         m->forwardVel -= decayFactor;
+    } else {
+        // reintroduce the old hardcap for the weird slopes where you kind of just maintain your speed
+        if (m->forwardVel > firmSpeedCap) {
+            m->forwardVel = firmSpeedCap;
+        }
     }
 
+    // still keep a high hard cap as a failsafe
     if (m->forwardVel > hardSpeedCap) {
         m->forwardVel = hardSpeedCap;
     }
@@ -846,7 +857,7 @@ s32 act_walking(struct MarioState *m) {
         return set_mario_action(m, ACT_CROUCH_SLIDE, 0);
     }
 
-    // m->actionState = 0;
+    m->actionState = 0;
 
     vec3f_copy(startPos, m->pos);
     update_walking_speed(m);
@@ -1003,7 +1014,12 @@ s32 act_turning_around(struct MarioState *m) {
     }
 
     if (m->input & INPUT_A_PRESSED) {
-        return set_jumping_action(m, ACT_SIDE_FLIP, 0);
+        if (m->input & INPUT_ANALOG_SPIN) {
+            return set_jumping_action(m, ACT_SPIN_JUMP, 0);
+        }
+        else {
+            return set_jumping_action(m, ACT_SIDE_FLIP, 0);
+        }
     }
 
     if (m->input & INPUT_UNKNOWN_5) {
@@ -1054,7 +1070,12 @@ s32 act_finish_turning_around(struct MarioState *m) {
     }
 
     if (m->input & INPUT_A_PRESSED) {
-        return set_jumping_action(m, ACT_SIDE_FLIP, 0);
+        if (m->input & INPUT_ANALOG_SPIN) {
+            return set_jumping_action(m, ACT_SPIN_JUMP, 0);
+        }
+        else {
+            return set_jumping_action(m, ACT_SIDE_FLIP, 0);
+        }
     }
 
     update_walking_speed(m);
