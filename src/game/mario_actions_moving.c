@@ -1298,7 +1298,7 @@ s32 act_riding_shell_ground(struct MarioState *m) {
     }
 
     adjust_sound_for_speed(m);
-    
+
     reset_rumble_timers();
     return FALSE;
 }
@@ -1600,8 +1600,10 @@ s32 act_roll(struct MarioState *m) {
             return set_mario_action(m, ACT_WALKING, 0);
     }
 
-    if (m->input & INPUT_B_PRESSED)
+    if (m->input & INPUT_B_PRESSED){
+        queue_rumble_data(5, 80);
         return set_jumping_action(m, ACT_FORWARD_ROLLOUT, 0);
+    }
 
     if (m->input & INPUT_A_PRESSED)
         return set_jumping_action(m, ACT_LONG_JUMP, 0);
@@ -1990,7 +1992,7 @@ s32 act_long_jump_land(struct MarioState *m) {
         m->forwardVel = 0.0f;
     }
 #endif
-    
+
     if (!(m->input & INPUT_Z_DOWN)) {
         m->input &= ~INPUT_A_PRESSED;
     }
