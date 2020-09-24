@@ -117,6 +117,7 @@ static const u8 bindStr[][32] = {
     { TEXT_BIND_C_DOWN },
     { TEXT_BIND_C_LEFT },
     { TEXT_BIND_C_RIGHT },
+    { TEXT_BIND_DPAD_RIGHT },
     { TEXT_BIND_UP },
     { TEXT_BIND_DOWN },
     { TEXT_BIND_LEFT },
@@ -243,14 +244,15 @@ static struct Option optsControls[] = {
     DEF_OPT_BIND( bindStr[ 9], configKeyCDown ),
     DEF_OPT_BIND( bindStr[10], configKeyCLeft ),
     DEF_OPT_BIND( bindStr[11], configKeyCRight ),
-    DEF_OPT_BIND( bindStr[12], configKeyStickUp ),
-    DEF_OPT_BIND( bindStr[13], configKeyStickDown ),
-    DEF_OPT_BIND( bindStr[14], configKeyStickLeft ),
-    DEF_OPT_BIND( bindStr[15], configKeyStickRight ),
+    DEF_OPT_BIND( bindStr[12], configKeyDpadRight ),
+    DEF_OPT_BIND( bindStr[13], configKeyStickUp ),
+    DEF_OPT_BIND( bindStr[14], configKeyStickDown ),
+    DEF_OPT_BIND( bindStr[15], configKeyStickLeft ),
+    DEF_OPT_BIND( bindStr[16], configKeyStickRight ),
     // max deadzone is 31000; this is less than the max range of ~32768, but this
     // way, the player can't accidentally lock themselves out of using the stick
-    DEF_OPT_SCROLL( bindStr[16], &configStickDeadzone, 0, 100, 1 ),
-    DEF_OPT_SCROLL( bindStr[17], &configRumbleStrength, 0, 100, 1)
+    DEF_OPT_SCROLL( bindStr[17], &configStickDeadzone, 0, 100, 1 ),
+    DEF_OPT_SCROLL( bindStr[18], &configRumbleStrength, 0, 100, 1)
 };
 
 static struct Option optsVideo[] = {

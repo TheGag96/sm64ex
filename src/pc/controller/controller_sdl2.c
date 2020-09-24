@@ -86,6 +86,7 @@ static void controller_sdl_bind(void) {
     controller_add_binds(L_TRIG,       configKeyL);
     controller_add_binds(R_TRIG,       configKeyR);
     controller_add_binds(START_BUTTON, configKeyStart);
+    controller_add_binds(R_JPAD,       configKeyDpadRight);
 }
 
 static void controller_sdl_init(void) {
@@ -156,7 +157,7 @@ static void controller_sdl_read(OSContPad *pad) {
         SDL_SetRelativeMouseMode(SDL_TRUE);
     else
         SDL_SetRelativeMouseMode(SDL_FALSE);
-    
+
     u32 mouse = SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
 
     for (u32 i = 0; i < num_mouse_binds; ++i)
